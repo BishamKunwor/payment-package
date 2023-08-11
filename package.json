@@ -5,7 +5,7 @@
   "main": "index.js",
   "author": "novelian.nova@gmail.com",
   "scripts": {
-    "dev": "nodemon src/index.ts",
+    "dev": "nodemon lib/index.ts",
     "build": "tsc"
   },
   "keywords": ["esewa", "khalti", "connectips"],
