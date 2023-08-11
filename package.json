@@ -3,12 +3,12 @@
   "version": "0.0.1",
   "description": "An Easy Plug and Play Package For Implementing Popular Nepalese Payment Provider into any App.",
   "main": "index.js",
+  "author": "novelian.nova@gmail.com",
   "scripts": {
     "dev": "nodemon src/index.ts",
     "build": "tsc"
   },
-  "keywords": [],
-  "author": "",
+  "keywords": ["esewa", "khalti", "connectips"],
   "license": "MIT",
   "devDependencies": {
     "@types/node": "^20.4.9",
