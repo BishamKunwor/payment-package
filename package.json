@@ -4,7 +4,8 @@
   "description": "An Easy Plug and Play Package For Implementing Popular Nepalese Payment Provider into any App.",
   "main": "index.js",
   "scripts": {
-    "dev": "nodemon src/index.ts"
+    "dev": "nodemon src/index.ts",
+    "build": "tsc"
   },
   "keywords": [],
   "author": "",
