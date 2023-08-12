@@ -98,14 +98,15 @@ export class EsewaPayment {
 
   public initiate(params: EsewaPaymentRequest) {
     const paymentInitiateUrl = this._apiUrl + "/epay/main";
+    const finalPostData = {
+      su: this._successRedirectUrl,
+      fu: this._failureRedirectUrl,
+      scd: this._scd,
+      ...params,
+    };
     postForm(
       paymentInitiateUrl,
-      convertObjectDataToString({
-        su: this._successRedirectUrl,
-        fu: this._failureRedirectUrl,
-        scd: this._scd,
-        ...params,
-      })
+      convertObjectDataToString<typeof finalPostData>(finalPostData)
     );
   }
 
@@ -118,10 +119,12 @@ export class EsewaPayment {
     path: string,
     params: PaymentVerificationRequest
   ) {
-    const formData: { [key: string]: string } = convertObjectDataToString({
+    const finalPostData = {
       scd: this._scd,
       ...params,
-    });
+    };
+    let formData: { [key: string]: string } =
+      convertObjectDataToString<typeof finalPostData>(finalPostData);
     const form = new FormData();
     for (let key in formData) {
       form.append(key, formData[key]);

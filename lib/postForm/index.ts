@@ -1,6 +1,6 @@
-export default function postForm(
+export default function postForm<T>(
   path: string,
-  params: { [key: string]: string }
+  params: { [key in keyof T]: string }
 ) {
   if (typeof window === "undefined") {
     throw new Error("Cannot Initiate Payment In Node Environment.");
@@ -18,16 +18,20 @@ export default function postForm(
     form.appendChild(hiddenField);
   }
 
-  console.log(form);
   document.body.appendChild(form);
   form.submit();
 }
 
-interface ParamsDataProps {
-  [key: string]: string | number;
-}
-export function convertObjectDataToString(paramsData: ParamsDataProps) {
-  let stringifiedObjectValues: { [key: string]: string } = {};
+type ConversionProps<T> = {
+  [key in keyof T]: string | number;
+};
+
+type StringifiedObj<T> = {
+  [key in keyof T]: string;
+};
+
+export function convertObjectDataToString<T>(paramsData: ConversionProps<T>) {
+  let stringifiedObjectValues = {} as StringifiedObj<T>;
   for (let key in paramsData) {
     stringifiedObjectValues[key] = paramsData[key].toString();
   }

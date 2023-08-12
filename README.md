@@ -1,10 +1,10 @@
 ##### Package Progress
 
-> Currently The `eSewa` Payment Package is being Documented. Work on Khalti will Start Afterwards.
+> Currently I'm Working on Khlati Integration. The Documentation of all of these packages will be done after the implementation are completed.
 
 ## Installing
 
-A straightforward preconfigured package for seamlessly integrating a well-known Nepalese payment provider into any application.
+A straightforward preconfigured package for seamlessly integrating all well-known Nepalese payment provider into any application.
 
 > **Note :**
 > The Package is Type Safe and includes Type Definations.
@@ -67,7 +67,8 @@ eswaPayment.initiate({
 });
 ```
 
-> **Esewa Credentials (Development Only)**
+> ##### Esewa Credentials (Development Only)
+>
 > `eSewa ID` : 9806800001, 9806800002, 9806800003, 9806800004, 9806800005
 > `Password` : Nepal@123
 > `Transaction Token`: 123456
@@ -89,7 +90,7 @@ validatePayment();
 
 ### Khalti
 
-> #### Starting Soon
+> #### Work on Progress
 
 ### ConnectIPS
 
