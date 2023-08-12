@@ -1,6 +1,6 @@
 {
   "name": "@bisham/payment-package",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "An Easy Plug and Play Typed Package For Implementing Popular Nepalese Payment Provider into any App.",
   "main": "dist/index.js",
   "author": "bishamkunwor",

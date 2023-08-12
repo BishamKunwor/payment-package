@@ -26,6 +26,26 @@ interface PaymentVerificationRequest {
   rid: string;
 }
 
+/**
+ * An Esewa Wrapper for Making and Validating Transaction.
+ *
+ * @param runtimeMode - Development | Production
+ * @param merchantId - The Merchant Code Provided by Esewa
+ * @param successRedirectUrl -  Redirect Url For Successful Payment
+ * @param failureRedirectUrl -  Redirect Url For Payment Failure
+ *
+ * @example 
+ * - Initializing the Package
+ * ```ts
+ * const eswaPayment = new EsewaPayment({
+  runtimeMode: "Development",
+  merchantId: "EPAYTEST",
+  successRedirectUrl: "http://localhost:3000/success",
+  failureRedirectUrl: "http://localhost:3000/failure",
+  });
+ * ```
+ */
+
 export class EsewaPayment {
   private _runtimeMode: RuntimeMode;
   private _apiUrl = "";

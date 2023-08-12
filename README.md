@@ -1,8 +1,13 @@
-#Getting Started
+##### Package Progress
+
+> Currently The `eSewa` Payment Package is being Documented. Work on Khalti will Start Afterwards.
 
 ## Installing
 
-An Easy Plug and Play Typed Package For Implementing Popular Nepalese Payment Provider into any App.
+A straightforward preconfigured package for seamlessly integrating a well-known Nepalese payment provider into any application.
+
+> **Note :**
+> The Package is Type Safe and includes Type Definations.
 
 ### Package manager
 
@@ -24,17 +29,19 @@ Using pnpm:
 pnpm add @bisham/payment-package
 ```
 
+## Example
+
+### Esewa
+
+#### Importing Esewa Payment Method
+
 After the package is installed, import it by using `import` or `require`.
 
 ```js
 import { EsewaPayment } from "@bisham/payment-package";
 ```
 
-##Example
-
-> **Note** The Package is Type Safe and includes Type Definations.
-
-#####Initialize the package as:
+##### Initialize the package as:
 
 ```js
 const eswaPayment = new EsewaPayment({
@@ -47,7 +54,7 @@ const eswaPayment = new EsewaPayment({
 
 Esewa Will redirect user to the `successRedirectUrl` if the payment was successful. Else it will redirect to `failureRedirectUrl`.
 
-#####For making Payment Request:
+##### For making Payment Request:
 
 ```js
 eswaPayment.initiate({
@@ -60,11 +67,12 @@ eswaPayment.initiate({
 });
 ```
 
-> **Esewa Credentials (Development Only)** > `eSewa ID` : 9806800001, 9806800002, 9806800003, 9806800004, 9806800005
+> **Esewa Credentials (Development Only)**
+> `eSewa ID` : 9806800001, 9806800002, 9806800003, 9806800004, 9806800005
 > `Password` : Nepal@123
 > `Transaction Token`: 123456
 
-##Payment Verification
+#### Payment Verification
 
 ```js
 async function validatePayment() {
@@ -78,3 +86,11 @@ async function validatePayment() {
 
 validatePayment();
 ```
+
+### Khalti
+
+> #### Starting Soon
+
+### ConnectIPS
+
+> #### Starting Soon

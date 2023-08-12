@@ -1,11 +1,11 @@
 import { EsewaPayment } from "./Esewa";
 
-// const eswaPayment = new EsewaPayment({
-//   runtimeMode: "Development",
-//   merchantId: "EPAYTEST",
-//   successRedirectUrl: "http://merchant.com.np/page/esewa_payment_success?q=su",
-//   failureRedirectUrl: "http://merchant.com.np/page/esewa_payment_failed?q=fu",
-// });
+const eswaPayment = new EsewaPayment({
+  runtimeMode: "Development",
+  merchantId: "EPAYTEST",
+  successRedirectUrl: "http://merchant.com.np/page/esewa_payment_success?q=su",
+  failureRedirectUrl: "http://merchant.com.np/page/esewa_payment_failed?q=fu",
+});
 
 // eswaPayment.initiate({
 //   amt: 100,
@@ -26,6 +26,5 @@ import { EsewaPayment } from "./Esewa";
 // }
 
 // validatePayment();
-
 
 export { EsewaPayment };
