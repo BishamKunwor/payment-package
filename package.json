@@ -1,14 +1,18 @@
 {
   "name": "@bisham/payment-package",
   "version": "0.0.0",
-  "description": "An Easy Plug and Play Package For Implementing Popular Nepalese Payment Provider into any App.",
+  "description": "An Easy Plug and Play Typed Package For Implementing Popular Nepalese Payment Provider into any App.",
   "main": "dist/index.js",
   "author": "bishamkunwor",
   "scripts": {
     "dev": "nodemon lib/index.ts",
     "build": "tsc"
   },
-  "keywords": ["esewa", "khalti", "connectips"],
+  "keywords": [
+    "esewa",
+    "khalti",
+    "connectips"
+  ],
   "license": "MIT",
   "devDependencies": {
     "@types/node": "^20.4.9",

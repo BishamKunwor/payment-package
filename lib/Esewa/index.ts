@@ -1,5 +1,5 @@
 import axios from "axios";
-import postForm from "../postForm";
+import postForm, { convertObjectDataToString } from "../postForm";
 
 type RuntimeMode = "Development" | "Production";
 interface EsewaPaymentConstructor {
@@ -78,12 +78,15 @@ export class EsewaPayment {
 
   public initiate(params: EsewaPaymentRequest) {
     const paymentInitiateUrl = this._apiUrl + "/epay/main";
-    postForm(paymentInitiateUrl, {
-      su: this._successRedirectUrl,
-      fu: this._failureRedirectUrl,
-      scd: this._scd,
-      ...params,
-    });
+    postForm(
+      paymentInitiateUrl,
+      convertObjectDataToString({
+        su: this._successRedirectUrl,
+        fu: this._failureRedirectUrl,
+        scd: this._scd,
+        ...params,
+      })
+    );
   }
 
   public verifyPayment(params: PaymentVerificationRequest) {
@@ -95,7 +98,10 @@ export class EsewaPayment {
     path: string,
     params: PaymentVerificationRequest
   ) {
-    const formData: any = { scd: this._scd, ...params };
+    const formData: { [key: string]: string } = convertObjectDataToString({
+      scd: this._scd,
+      ...params,
+    });
     const form = new FormData();
     for (let key in formData) {
       form.append(key, formData[key]);
