@@ -3,9 +3,29 @@ import postForm, { convertObjectDataToString } from "../postForm";
 
 type RuntimeMode = "Development" | "Production";
 interface EsewaPaymentConstructor {
+  /**
+   * @param {RuntimeMode} runtimeMode
+   *
+   * Set Runtime to `Development` for Testing usage.
+   *
+   * Set to `Production` for Live Usage.
+   */
   runtimeMode?: RuntimeMode;
+  /**
+   * @param {string | undefined} merchantId - A unique Id that is used to identify merchant.
+   *
+   * This would Be Provided By eSewa.
+   *
+   * For runtimeMode `Development` it is set to `EPAYTEST` by Default.
+   */
   merchantId?: string;
+  /**
+   * If Payment Succeeds Esewa Redirects to this Url.
+   */
   successRedirectUrl?: string;
+  /**
+   * If Payment Fails Esewa Redirects to this Url.
+   */
   failureRedirectUrl?: string;
 }
 
