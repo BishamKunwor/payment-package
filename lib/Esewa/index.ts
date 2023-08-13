@@ -12,19 +12,19 @@ interface EsewaPaymentConstructor {
    */
   runtimeMode?: RuntimeMode;
   /**
-   * @param {string | undefined} merchantId - A unique Id that is used to identify merchant.
+   * @param {string | undefined} merchantId - A unique Id used to identify merchant by esewa.
    *
    * This would Be Provided By eSewa.
    *
-   * For runtimeMode `Development` it is set to `EPAYTEST` by Default.
+   * Ommit this Field for `Development` runtime as `EPAYTES` is set by Default.
    */
   merchantId?: string;
   /**
-   * If Payment Succeeds Esewa Redirects to this Url.
+   * @param {string | undefined} successRedirectUrl - Redirects to this link After successful Payment.
    */
   successRedirectUrl?: string;
   /**
-   * If Payment Fails Esewa Redirects to this Url.
+   * @param {string | undefined} failureRedirectUrl - Redirects to this link After Payment Failure.
    */
   failureRedirectUrl?: string;
 }
