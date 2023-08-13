@@ -176,6 +176,10 @@ export class EsewaPayment {
    * Initiate Esewa Payment Request
    */
   public initiate(params: EsewaPaymentRequest) {
+    if (Object.keys(params).length === 0) {
+      console.log("Cannot Initiate Payment without Valid Request Parameters.");
+      return;
+    }
     const paymentInitiateUrl = this._apiUrl + "/epay/main";
     const finalPostData: EsewaPaymentFinalRequest = {
       su: this._successRedirectUrl,
@@ -189,6 +193,11 @@ export class EsewaPayment {
     );
   }
 
+  /**
+   *
+   * @param params - eSewa Validation Params
+   * @returns {Object} - Returns {success: boolean}
+   */
   public verifyPayment(params: PaymentVerificationRequest) {
     const verificationUrl = this._apiUrl + "/epay/transrec";
     return this.makeVerficationRequest(verificationUrl, params);
