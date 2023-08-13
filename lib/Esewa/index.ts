@@ -53,17 +53,24 @@ interface EsewaPaymentRequest {
    */
   tAmt: number;
   /**
-   * @param {number} pid - A unique ID of product or item or ticket etc
+   * @param {string} pid - A unique ID of product or item or ticket etc
    */
   pid: string;
   /**
-   * @param {number} su - Success URL: a redirect URL of merchant application where customer will be redirected after SUCCESSFUL transaction
+   * @param {string} su - Success URL: a redirect URL of merchant application where customer will be redirected after SUCCESSFUL transaction
    */
   su?: string;
   /**
-   * @param {number} fu - Failure URL: a redirect URL of merchant application where customer will be redirected after FAILURE or PENDING transaction
+   * @param {string} fu - Failure URL: a redirect URL of merchant application where customer will be redirected after FAILURE or PENDING transaction
    */
   fu?: string;
+}
+
+interface EsewaPaymentFinalRequest extends EsewaPaymentRequest {
+  /**
+   * @param {string} scd - Merchant code provided by eSewa
+   */
+  scd: string;
 }
 
 interface PaymentVerificationRequest {
@@ -153,20 +160,24 @@ export class EsewaPayment {
     successRedirectUrl: EsewaPaymentConstructor["successRedirectUrl"],
     failureRedirectUrl: EsewaPaymentConstructor["failureRedirectUrl"]
   ) {
-    if (
-      typeof successRedirectUrl === "string" &&
-      successRedirectUrl.length > 5 &&
-      typeof failureRedirectUrl === "string" &&
-      failureRedirectUrl.length > 5
-    ) {
+    if (typeof successRedirectUrl === "string") {
       this._successRedirectUrl = successRedirectUrl;
+    }
+    if (typeof failureRedirectUrl === "string") {
       this._failureRedirectUrl = failureRedirectUrl;
+    }
+    if (this._runtimeMode === "Development") {
+      console.log(`Success Redirect Url: ${this._successRedirectUrl}`);
+      console.log(`Failure Redirect Url: ${this._failureRedirectUrl}`);
     }
   }
 
+  /**
+   * Initiate Esewa Payment Request
+   */
   public initiate(params: EsewaPaymentRequest) {
     const paymentInitiateUrl = this._apiUrl + "/epay/main";
-    const finalPostData = {
+    const finalPostData: EsewaPaymentFinalRequest = {
       su: this._successRedirectUrl,
       fu: this._failureRedirectUrl,
       scd: this._scd,
