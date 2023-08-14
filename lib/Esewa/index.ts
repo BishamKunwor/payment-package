@@ -14,7 +14,7 @@ interface EsewaPaymentConstructor {
   runtimeMode?: RuntimeMode;
 
   /**
-   * @param {string | undefined} merchantId - A unique Id provided by `eSewa` to identify merchant by esewa.
+   * @param {string | undefined} merchantId - A unique Id provided by `eSewa` to identify the merchant.
    *
    * Ommit this Field for `Development` runtime as `EPAYTEST` is set by Default.
    */
@@ -97,14 +97,20 @@ interface PaymentVerificationRequest {
  * @param failureRedirectUrl -  Redirect Url For Payment Failure
  *
  * @example 
- * - Initializing the Package
+ * 
+ *  * - Initializing the Package Without Global Redirect Urls
+ * ```ts
+ * const eswaPayment = new EsewaPayment({});
+  ```
+ * 
+ * - Initializing the Package With Global Redirect Urls
  * ```ts
  * const eswaPayment = new EsewaPayment({
-  runtimeMode: "Development",
   successRedirectUrl: "http://localhost:3000/success",
   failureRedirectUrl: "http://localhost:3000/failure",
   });
- * ```
+  ```
+ * 
  */
 export class EsewaPayment {
   private _runtimeMode: RuntimeMode;
@@ -120,8 +126,8 @@ export class EsewaPayment {
     failureRedirectUrl,
   }: EsewaPaymentConstructor) {
     this._runtimeMode = runtimeMode;
-    this.setApiUrl();
     this.setMerchantId(merchantId);
+    this.setApiUrl();
     this.setRedirectUrls(successRedirectUrl, failureRedirectUrl);
   }
 
@@ -132,22 +138,28 @@ export class EsewaPayment {
     if (this._runtimeMode === "Production") {
       this._apiUrl = "https://esewa.com.np";
     } else if (this._runtimeMode === "Development") {
-      console.log(
-        `Runtime Mode set to Development.\nRedirect url Set to ${this._apiUrl}`
-      );
+      console.log(`Redirect url Set to ${this._apiUrl}`);
     }
   }
 
   /**
    * Sets the scd provided by eSewa
-   * @param merchantId - eSewa scd
+   * @param merchantId - This is the merchand code provided by eSewa and is known by scd
    */
   private setMerchantId(merchantId: EsewaPaymentConstructor["merchantId"]) {
+    if (
+      this._runtimeMode === "Production" &&
+      typeof merchantId === "undefined"
+    ) {
+      throw new Error("MerchantId cannot Be Empty.");
+    }
     if (typeof merchantId === "string") {
       this._scd = merchantId;
     }
     if (this._runtimeMode === "Development") {
-      console.log(`MerchantId set to ${this._scd}`);
+      console.log(
+        `Runtime Mode set to Development.\nMerchantId set to ${this._scd}`
+      );
     }
   }
 
@@ -160,6 +172,18 @@ export class EsewaPayment {
     successRedirectUrl: EsewaPaymentConstructor["successRedirectUrl"],
     failureRedirectUrl: EsewaPaymentConstructor["failureRedirectUrl"]
   ) {
+    if (
+      this._runtimeMode === "Production" &&
+      typeof successRedirectUrl === "undefined"
+    ) {
+      throw new Error("successRedirectUrl cannot Be Empty.");
+    }
+    if (
+      this._runtimeMode === "Production" &&
+      typeof failureRedirectUrl === "undefined"
+    ) {
+      throw new Error("failureRedirectUrl cannot Be Empty.");
+    }
     if (typeof successRedirectUrl === "string") {
       this._successRedirectUrl = successRedirectUrl;
     }
