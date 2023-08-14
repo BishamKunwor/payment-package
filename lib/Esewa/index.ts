@@ -188,7 +188,7 @@ export class EsewaPayment {
    * Initiate Esewa Payment Request
    */
   public initiate(params: EsewaPaymentRequest) {
-    if (Object.keys(params).length === 0) {
+    if (Object.keys(params || {}).length === 0) {
       console.log("Cannot Initiate Payment without Valid Request Parameters.");
       return;
     }
