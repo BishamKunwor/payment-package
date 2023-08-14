@@ -172,18 +172,6 @@ export class EsewaPayment {
     successRedirectUrl: EsewaPaymentConstructor["successRedirectUrl"],
     failureRedirectUrl: EsewaPaymentConstructor["failureRedirectUrl"]
   ) {
-    // if (
-    //   this._runtimeMode === "Production" &&
-    //   typeof successRedirectUrl === "undefined"
-    // ) {
-    //   throw new Error("successRedirectUrl cannot Be Empty.");
-    // }
-    // if (
-    //   this._runtimeMode === "Production" &&
-    //   typeof failureRedirectUrl === "undefined"
-    // ) {
-    //   throw new Error("failureRedirectUrl cannot Be Empty.");
-    // }
     if (typeof successRedirectUrl === "string") {
       this._successRedirectUrl = successRedirectUrl;
     }
@@ -211,6 +199,12 @@ export class EsewaPayment {
       scd: this._scd,
       ...params,
     };
+    for (let key in finalPostData) {
+      // @ts-ignore
+      if (typeof finalPostData[key] === "undefined") {
+        throw new Error(`${key} cannot be Empty while Initiating Payment.`);
+      }
+    }
     postForm(
       paymentInitiateUrl,
       convertObjectDataToString<typeof finalPostData>(finalPostData)
@@ -218,8 +212,10 @@ export class EsewaPayment {
   }
 
   /**
-   *
-   * @param params - eSewa Validation Params
+   * Verify Payment From eSewa
+   * @param {number} amt - Total payment amount (tAmt)
+   * @param {string} pid - Product ID (pid) used on payment request
+   * @param {string} pid - Product ID (pid) used on payment request
    * @returns {Object} - Returns {success: boolean}
    */
   public verifyPayment(params: PaymentVerificationRequest) {
@@ -237,6 +233,11 @@ export class EsewaPayment {
     };
     let formData: { [key: string]: string } =
       convertObjectDataToString<typeof finalPostData>(finalPostData);
+    for (let key in formData) {
+      if (typeof formData[key] === "undefined") {
+        throw new Error(`${key} cannot be Empty while Verifing Payment.`);
+      }
+    }
     const form = new FormData();
     for (let key in formData) {
       form.append(key, formData[key]);
