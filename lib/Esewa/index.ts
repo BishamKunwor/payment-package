@@ -172,18 +172,18 @@ export class EsewaPayment {
     successRedirectUrl: EsewaPaymentConstructor["successRedirectUrl"],
     failureRedirectUrl: EsewaPaymentConstructor["failureRedirectUrl"]
   ) {
-    if (
-      this._runtimeMode === "Production" &&
-      typeof successRedirectUrl === "undefined"
-    ) {
-      throw new Error("successRedirectUrl cannot Be Empty.");
-    }
-    if (
-      this._runtimeMode === "Production" &&
-      typeof failureRedirectUrl === "undefined"
-    ) {
-      throw new Error("failureRedirectUrl cannot Be Empty.");
-    }
+    // if (
+    //   this._runtimeMode === "Production" &&
+    //   typeof successRedirectUrl === "undefined"
+    // ) {
+    //   throw new Error("successRedirectUrl cannot Be Empty.");
+    // }
+    // if (
+    //   this._runtimeMode === "Production" &&
+    //   typeof failureRedirectUrl === "undefined"
+    // ) {
+    //   throw new Error("failureRedirectUrl cannot Be Empty.");
+    // }
     if (typeof successRedirectUrl === "string") {
       this._successRedirectUrl = successRedirectUrl;
     }
