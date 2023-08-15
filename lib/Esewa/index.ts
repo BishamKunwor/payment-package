@@ -157,9 +157,8 @@ export class EsewaPayment {
       this._scd = merchantId;
     }
     if (this._runtimeMode === "Development") {
-      console.log(
-        `Runtime Mode set to Development.\nMerchantId set to ${this._scd}`
-      );
+      console.log(`Runtime Mode set to Development.`);
+      console.log(`MerchantId set to ${this._scd}`);
     }
   }
 
@@ -199,7 +198,18 @@ export class EsewaPayment {
       scd: this._scd,
       ...params,
     };
-    for (let key in finalPostData) {
+    let checkForNullParams = [
+      "amt",
+      "pdc",
+      "pid",
+      "psc",
+      "scd",
+      "tAmt",
+      "txAmt",
+      "fu",
+      "su",
+    ];
+    for (let key of checkForNullParams) {
       // @ts-ignore
       if (typeof finalPostData[key] === "undefined") {
         throw new Error(`${key} cannot be Empty while Initiating Payment.`);
@@ -220,6 +230,17 @@ export class EsewaPayment {
    */
   public verifyPayment(params: PaymentVerificationRequest) {
     const verificationUrl = this._apiUrl + "/epay/transrec";
+    if (Object.keys(params || {}).length === 0) {
+      console.log("Cannot Verify Payment without Valid Request Parameters.");
+      return;
+    }
+    let checkForNullParams = ["amt", "pid", "rid"];
+    for (let key of checkForNullParams) {
+      // @ts-ignore
+      if (typeof params[key] === "undefined") {
+        throw new Error(`${key} cannot be Empty while Verifying Payment.`);
+      }
+    }
     return this.makeVerficationRequest(verificationUrl, params);
   }
 
@@ -238,7 +259,8 @@ export class EsewaPayment {
         throw new Error(`${key} cannot be Empty while Verifing Payment.`);
       }
     }
-    const form = new FormData();
+    // const form = new FormData();
+    const form = new URLSearchParams();
     for (let key in formData) {
       form.append(key, formData[key]);
     }
@@ -253,6 +275,9 @@ export class EsewaPayment {
           success: true,
         };
       }
+      return {
+        success: false,
+      };
     } catch (error) {
       console.log(error);
       return {

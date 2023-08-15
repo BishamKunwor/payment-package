@@ -10,7 +10,7 @@
     "url": "https://bishamkunwor.com.np"
   },
   "scripts": {
-    "dev": "nodemon lib/index.ts",
+    "dev": "concurrently \"tsc --watch\" \"nodemon dist/index.js\"",
     "build": "tsc"
   },
   "keywords": [
@@ -21,6 +21,7 @@
   "license": "MIT",
   "devDependencies": {
     "@types/node": "^20.4.9",
+    "concurrently": "^8.2.0",
     "nodemon": "^3.0.1",
     "ts-node": "^10.9.1",
     "typescript": "^5.1.6"
