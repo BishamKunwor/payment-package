@@ -1,97 +1,67 @@
-##### Package Progress
+# Payment Package Docs
 
-> Currently I'm Working on Khlati Integration. The Documentation of all of these packages will be done after the implementation are completed.
+**Package Progress**
 
-## Installing
+> I’m Happy to announce that I’ve completed `eSewa` Implementation and can be used for `production`. Furthermore, I’ll be working on Khalti Implementation.
+> 
 
-A straightforward preconfigured package for seamlessly integrating all well-known Nepalese payment provider into any application.
+## Esewa
 
-> **Note :**
-> The Package is Type Safe and includes Type Definations.
+> Progress
+> 
+- [x]  Implementation
+- [x]  Type Safety
+- [x]  Documentation
+- [x]  Manual Testing
+- [ ]  Setting Automatic Test Runner
 
-### Package manager
+### **Documentation**
 
-Using npm:
+**Initialization With Default Values**
 
-```
-npm install @bisham/payment-package
-```
+```tsx
+// Initializes the payment package with default credentials
 
-Using yarn:
+// Default Options
+// runtimeMode = "Development"
+// merchantId = "EPAYTEST"
+// successRedirectUrl = "http://localhost:3000/esewaSuccessRedirect"
+// failureRedirectUrl = "http://localhost:3000/esewaFailureRedirect"
 
-```
-yarn add @bisham/payment-package
-```
-
-Using pnpm:
-
-```
-pnpm add @bisham/payment-package
-```
-
-## Example
-
-### Esewa
-
-#### Importing Esewa Payment Method
-
-After the package is installed, import it by using `import` or `require`.
-
-```js
-import { EsewaPayment } from "@bisham/payment-package";
+const esewaPayment = new EsewaPayment({});
 ```
 
-##### Initialize the package as:
+**You Can Also Manually Override these Settings as:**
 
-```js
-const eswaPayment = new EsewaPayment({
-  runtimeMode: "Development",
-  merchantId: "EPAYTEST",
-  successRedirectUrl: "http://merchant.com.np/page/esewa_payment_success?q=su",
-  failureRedirectUrl: "http://merchant.com.np/page/esewa_payment_failed?q=fu",
+```tsx
+const esewaPayment = new EsewaPayment({
+  merchantId: "ESEWASCD",
 });
 ```
 
-Esewa Will redirect user to the `successRedirectUrl` if the payment was successful. Else it will redirect to `failureRedirectUrl`.
+**Initialization With Global Redirect URLs**
 
-##### For making Payment Request:
+```tsx
+// If the App have single Redirect Url then set it Here
 
-```js
-eswaPayment.initiate({
-  amt: 100,
-  pdc: 0,
-  psc: 0,
-  txAmt: 0,
-  tAmt: 100,
-  pid: "ee2c3ca1-696b-4cc5-a6be",
+const esewaPayment = new EsewaPayment({
+  successRedirectUrl: "http://bishamkunwor.com.np/payment/success",
+  failureRedirectUrl: "http://bishamkunwor.com.np/payment/failure",
 });
 ```
 
-> ##### Esewa Credentials (Development Only)
->
-> `eSewa ID` : 9806800001, 9806800002, 9806800003, 9806800004, 9806800005
-> `Password` : Nepal@123
-> `Transaction Token`: 123456
+**Verifying Payment**
 
-#### Payment Verification
-
-```js
+```tsx
 async function validatePayment() {
-  const response = await eswaPayment.verifyPayment({
-    amt: 100.0,
-    rid: "0005XMJ",
-    pid: "ee2c3ca1-696b-4cc5-a6be",
+  const response = await esewaPayment.verifyPayment({
+    amt: 200,
+    pid: "pid-provided-by-esewa",
+    rid: "rid-provided-by-esewa",
   });
-  console.log(response); //wil return {success: boolean}
+  // Implement Your Logic Here
+  console.log(response?.success);
 }
 
 validatePayment();
 ```
-
-### Khalti
-
-> #### Work on Progress
-
-### ConnectIPS
-
-> #### Starting Soon
