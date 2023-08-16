@@ -159,10 +159,24 @@ export class KhaltiPayment {
         throw new Error(`${key} cannot be Empty while Initiating Payment.`);
       }
     }
-    this.makeGetPidxRequest(getPidxUrl, finalPostData);
+    return this.makeGetPidxRequest(getPidxUrl, finalPostData);
   }
 
-  private makeGetPidxRequest(path: string, data: any) {}
+  private async makeGetPidxRequest(path: string, data: any) {
+    try {
+      const response = await axios({
+        method: "POST",
+        url: path,
+        headers: {
+          Authorization: `Key ${this._khaltiSecretKey}`,
+        },
+        data,
+      });
+      return response.data;
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
   /**
    * Verify Payment From Khalti
