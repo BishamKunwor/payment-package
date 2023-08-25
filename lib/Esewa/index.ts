@@ -91,13 +91,13 @@ interface EsewaPaymentRequestInit {
    */
   processId: string;
   /**
-   * @param {string} successRedirect - Success URL: a redirect URL of merchant application where customer will be redirected after SUCCESSFUL transaction
+   * @param {string} successRedirectUrl - Success URL: a redirect URL of merchant application where customer will be redirected after SUCCESSFUL transaction
    */
-  successRedirect?: string;
+  successRedirectUrl?: string;
   /**
-   * @param {string} failureRedirect - Failure URL: a redirect URL of merchant application where customer will be redirected after FAILURE or PENDING transaction
+   * @param {string} failureRedirectUrl - Failure URL: a redirect URL of merchant application where customer will be redirected after FAILURE or PENDING transaction
    */
-  failureRedirect?: string;
+  failureRedirectUrl?: string;
 }
 
 interface EsewaPaymentFinalRequest extends EsewaPaymentRequest {
@@ -251,8 +251,8 @@ export class EsewaPayment {
     }
     const paymentInitiateUrl = this._apiUrl + "/epay/main";
     const finalPostData: EsewaPaymentFinalRequest = {
-      su: params.successRedirect || this._successRedirectUrl,
-      fu: params.failureRedirect || this._failureRedirectUrl,
+      su: params.successRedirectUrl || this._successRedirectUrl,
+      fu: params.failureRedirectUrl || this._failureRedirectUrl,
       scd: this._scd,
       amt: params.amount,
       pdc: params.deliveryCharge || 0,
@@ -269,8 +269,8 @@ export class EsewaPayment {
       scd: "merchantId",
       tAmt: "totalAmount",
       pid: "processId",
-      su: "successRedirect",
-      fu: "failureRedirect",
+      su: "successRedirectUrl",
+      fu: "failureRedirectUrl",
     } as const;
     for (let key in checkForNullParams) {
       if (
