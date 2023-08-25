@@ -1,4 +1,3 @@
-import axios from "axios";
 import postForm, { convertObjectDataToString } from "../postForm";
 
 type RuntimeMode = "Development" | "Production";
