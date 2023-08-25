@@ -106,47 +106,45 @@ interface PaymentVerificationRequest {
  * - Initializing the Package With Global Redirect Urls
  * ```ts
  * const eswaPayment = new EsewaPayment({
-  successRedirectUrl: "http://localhost:3000/success",
-  failureRedirectUrl: "http://localhost:3000/failure",
+  successRedirectUrl: "https://example.com/success",
+  failureRedirectUrl: "https://example.com/failure",
   });
   ```
  * 
  */
 export class EsewaPayment {
-  private _runtimeMode: RuntimeMode;
+  private _runtimeMode: RuntimeMode = "Development";
   private _apiUrl = "https://uat.esewa.com.np";
   private _scd = "EPAYTEST";
-  private _successRedirectUrl = "http://localhost:3000/esewaSuccessRedirect";
-  private _failureRedirectUrl = "http://localhost:3000/esewaFailureRedirect";
+  private _successRedirectUrl = "https://example.com/esewaSuccessRedirect";
+  private _failureRedirectUrl = "https://example.com/esewaFailureRedirect";
 
-  constructor({
-    runtimeMode = "Development",
-    merchantId,
-    successRedirectUrl,
-    failureRedirectUrl,
-  }: EsewaPaymentConstructor) {
-    this._runtimeMode = runtimeMode;
-    this.setMerchantId(merchantId);
-    this.setApiUrl();
-    this.setRedirectUrls(successRedirectUrl, failureRedirectUrl);
-  }
-
-  /**
-   * Sets the base API Url
-   */
-  private setApiUrl() {
-    if (this._runtimeMode === "Production") {
-      this._apiUrl = "https://esewa.com.np";
-    } else if (this._runtimeMode === "Development") {
+  constructor(params?: EsewaPaymentConstructor) {
+    if (typeof params === "undefined") {
+      console.log(`Runtime Mode set to Development.`);
+      console.log(`MerchantId set to ${this._scd}`);
       console.log(`Redirect url Set to ${this._apiUrl}`);
+      console.log(`Success Redirect Url: ${this._successRedirectUrl}`);
+      console.log(`Failure Redirect Url: ${this._failureRedirectUrl}`);
+      return;
     }
+    const {
+      runtimeMode = "Development",
+      merchantId,
+      successRedirectUrl,
+      failureRedirectUrl,
+    } = params;
+    this._runtimeMode = runtimeMode;
+    this._setMerchantId(merchantId);
+    this._setApiUrl();
+    this._setRedirectUrls(successRedirectUrl, failureRedirectUrl);
   }
 
   /**
    * Sets the scd provided by eSewa
    * @param merchantId - This is the merchand code provided by eSewa and is known by scd
    */
-  private setMerchantId(merchantId: EsewaPaymentConstructor["merchantId"]) {
+  private _setMerchantId(merchantId: EsewaPaymentConstructor["merchantId"]) {
     if (
       this._runtimeMode === "Production" &&
       typeof merchantId === "undefined"
@@ -163,11 +161,22 @@ export class EsewaPayment {
   }
 
   /**
+   * Sets the base API Url
+   */
+  private _setApiUrl() {
+    if (this._runtimeMode === "Production") {
+      this._apiUrl = "https://esewa.com.np";
+    } else if (this._runtimeMode === "Development") {
+      console.log(`Redirect url Set to ${this._apiUrl}`);
+    }
+  }
+
+  /**
    * Sets The Redirect Url for the App
    * @param successRedirectUrl - Redirect Url For Successful Payment.
    * @param failureRedirectUrl - Redirect Url For Payment Failure.
    */
-  private setRedirectUrls(
+  private _setRedirectUrls(
     successRedirectUrl: EsewaPaymentConstructor["successRedirectUrl"],
     failureRedirectUrl: EsewaPaymentConstructor["failureRedirectUrl"]
   ) {
