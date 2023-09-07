@@ -55,18 +55,27 @@ interface GetPidxProps extends WebsiteUrls {
 }
 
 export class KhaltiPayment {
-  private _runtimeMode: RuntimeMode;
+  private _runtimeMode: RuntimeMode = "Development";
   private _apiUrl = "https://a.khalti.com/api/v2";
   private _khaltiSecretKey = "live_secret_key_c29bff9015674b939338370b7ea9f7f2";
-  private _websiteUrl = "http://localhost:3000/websiteUrl";
-  private _redirectUrl = "http://localhost:3000/redirectUrl";
+  private _websiteUrl = "https://example.com";
+  private _redirectUrl = "https://example.com/redirectUrl";
 
-  constructor({
-    runtimeMode = "Development",
-    khaltiSecretKey,
-    websiteUrl,
-    redirectUrl,
-  }: KhaltiPaymentConstructor) {
+  constructor(params?: KhaltiPaymentConstructor) {
+    if (typeof params === "undefined") {
+      console.log("Runtime Mode set to Development.");
+      console.log(`Setting Development API URL: ${this._apiUrl}`);
+      console.log(`Setting Development Key To: ${this._khaltiSecretKey}`);
+      console.log(`Website Url: ${this._websiteUrl}`);
+      console.log(`Redirect Url: ${this._redirectUrl}`);
+      return;
+    }
+    const {
+      runtimeMode = "Development",
+      khaltiSecretKey,
+      websiteUrl,
+      redirectUrl,
+    } = params;
     this._runtimeMode = runtimeMode;
     this.setKhaltiSecret(khaltiSecretKey);
     this.setApiUrl();
@@ -138,8 +147,12 @@ export class KhaltiPayment {
 
   public getPidx(params: GetPidxProps) {
     if (Object.keys(params || {}).length === 0) {
-      console.log("Cannot Initiate Request without Valid Parameters.");
-      return;
+      throw new Error("Cannot Initiate Request without Valid Parameters.");
+    }
+    if (typeof window !== "undefined") {
+      throw new Error(
+        "Pidx Can Only Be Generated On Server Side i.e. Node.js due to CORS error set on frontend. Implement This Function in Backend and send Its response to the Frontend to Overcome this Issue."
+      );
     }
     const getPidxUrl = this._apiUrl + "/epayment/initiate/";
     const finalPostData: any = {
