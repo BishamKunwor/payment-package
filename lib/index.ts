@@ -1,9 +1,7 @@
 import { EsewaPayment } from './Esewa';
 import { KhaltiPayment } from './Khalti';
 
-const khaltiPayment = new KhaltiPayment({
-  runtimeMode: 'Development',
-});
+const khaltiPayment = new KhaltiPayment({});
 
 // (async () => {
 //   console.log(

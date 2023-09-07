@@ -53,7 +53,7 @@ export class KhaltiPayment {
       this._runtimeMode === 'Production' &&
       typeof khaltiSecretKey === 'undefined'
     ) {
-      throw new Error('KahltiSecret Key Cannot Be Empty.');
+      throw new Error('khaltiSecretKey Key Cannot Be Empty.');
     }
     if (typeof khaltiSecretKey === 'string') {
       this._khaltiSecretKey = khaltiSecretKey;

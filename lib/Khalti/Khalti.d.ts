@@ -1,4 +1,5 @@
 type RuntimeMode = 'Development' | 'Production';
+
 interface WebsiteUrls {
   /**
    * @param redirectUrl - Khalti Redirects to this Url After Payment
@@ -16,7 +17,7 @@ interface KhaltiDevelopmentConstructor {
    * @param {RuntimeMode} runtimeMode - `Development` or `Production` Mode to Perform Transaction
    * @default Development
    */
-  runtimeMode: 'Development';
+  runtimeMode?: 'Development';
   /**
    * @param khaltiSecretKey - Secret key provided by khalti.
    */
@@ -28,7 +29,7 @@ interface KhaltiProductionConstructor {
    * @param {RuntimeMode} runtimeMode - `Development` or `Production` Mode to Perform Transaction
    * @default Development
    */
-  runtimeMode: 'Production';
+  runtimeMode?: 'Production';
   /**
    * @param khaltiSecretKey - Secret key provided by khalti.
    */
@@ -36,42 +37,13 @@ interface KhaltiProductionConstructor {
 }
 
 interface KhaltiUniqueConstructorConfigs extends WebsiteUrls {
+  /**
+   * @param logConfig - Boolean to Show Logs or Not
+   */
   logConfig?: boolean;
 }
 type KhaltiPaymentConstructor = KhaltiUniqueConstructorConfigs &
   (KhaltiDevelopmentConstructor | KhaltiProductionConstructor);
-
-// interface KhaltiPaymentConstructor extends WebsiteUrls {
-//   /**
-//    * @param {RuntimeMode} runtimeMode - `Development` or `Production` Mode to Perform Transaction
-//    * @default Development
-//    */
-//   runtimeMode?: RuntimeMode;
-
-//   /**
-//    * @param khaltiSecretKey - Secret key provided by khalti.
-//    */
-//   khaltiSecretKey?: string;
-
-//   logConfig?: boolean;
-// }
-
-// type KhaltiPaymentConstructor = {} & (
-//   | {
-//       runtimeMode: 'Development';
-//       /**
-//        * @param khaltiSecretKey - Secret key provided by khalti.
-//        */
-//       khaltiSecretKey?: string;
-//     }
-//   | {
-//       runtimeMode: 'Production';
-//       /**
-//        * @param khaltiSecretKey - Secret key provided by khalti.
-//        */
-//       khaltiSecretKey: string;
-//     }
-// ) & WebsiteUrls;
 
 interface GetPidxProps extends WebsiteUrls {
   /**
