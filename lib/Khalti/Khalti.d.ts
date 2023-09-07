@@ -15,7 +15,7 @@ interface KhaltiPaymentConstructor extends WebsiteUrls {
    */
   runtimeMode?: RuntimeMode;
   /**
-   * @param khaltiSecretKey - Secret key provided by khalti. ommit for `development`
+   * @param khaltiSecretKey - Secret key provided by khalti.
    */
   khaltiSecretKey: string;
 }

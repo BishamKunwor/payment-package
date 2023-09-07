@@ -7,11 +7,7 @@ export class KhaltiPayment {
 
   constructor(params?: KhaltiPaymentConstructor) {
     if (typeof params === 'undefined') {
-      console.log('Runtime Mode set to Development.');
-      console.log(`Setting Development API URL: ${this._apiUrl}`);
-      console.log(`Setting Development Key To: ${this._khaltiSecretKey}`);
-      console.log(`Website Url: ${this._websiteUrl}`);
-      console.log(`Redirect Url: ${this._redirectUrl}`);
+      this._logConfig();
       return;
     }
     const {
@@ -24,13 +20,22 @@ export class KhaltiPayment {
     this._setKhaltiSecret(khaltiSecretKey);
     this._setApiUrl();
     this._setRedirectsAndWebsiteUrl(websiteUrl, redirectUrl);
+    if (this._runtimeMode === 'Development') {
+      this._logConfig();
+    }
+  }
+
+  private _logConfig() {
+    console.log('Runtime Mode set to Development.');
+    console.log(`Setting Development API URL: ${this._apiUrl}`);
+    console.log(`Setting Development Key To: ${this._khaltiSecretKey}`);
+    console.log(`Website Url: ${this._websiteUrl}`);
+    console.log(`Redirect Url: ${this._redirectUrl}`);
   }
 
   private _setApiUrl() {
     if (this._runtimeMode === 'Production') {
       this._apiUrl = 'https://khalti.com/api/v2';
-    } else if (this._runtimeMode === 'Development') {
-      console.log(`Setting Development API URL: ${this._apiUrl}`);
     }
   }
 
@@ -49,10 +54,6 @@ export class KhaltiPayment {
     }
     if (typeof khaltiSecretKey === 'string') {
       this._khaltiSecretKey = khaltiSecretKey;
-    }
-    if (this._runtimeMode === 'Development') {
-      console.log('Runtime Mode set to Development.');
-      console.log(`Setting Development Key To: ${this._khaltiSecretKey}`);
     }
   }
 
@@ -82,10 +83,6 @@ export class KhaltiPayment {
     }
     if (typeof redirectUrl === 'string') {
       this._redirectUrl = redirectUrl;
-    }
-    if (this._runtimeMode === 'Development') {
-      console.log(`Website Url: ${this._websiteUrl}`);
-      console.log(`Redirect Url: ${this._redirectUrl}`);
     }
   }
 
