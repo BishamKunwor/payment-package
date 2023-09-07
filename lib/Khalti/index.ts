@@ -1,6 +1,6 @@
-import axios from "axios";
+import axios from 'axios';
 
-type RuntimeMode = "Development" | "Production";
+type RuntimeMode = 'Development' | 'Production';
 interface WebsiteUrls {
   /**
    * Landing page after the transaction
@@ -55,15 +55,15 @@ interface GetPidxProps extends WebsiteUrls {
 }
 
 export class KhaltiPayment {
-  private _runtimeMode: RuntimeMode = "Development";
-  private _apiUrl = "https://a.khalti.com/api/v2";
-  private _khaltiSecretKey = "live_secret_key_c29bff9015674b939338370b7ea9f7f2";
-  private _websiteUrl = "https://example.com";
-  private _redirectUrl = "https://example.com/redirectUrl";
+  private _runtimeMode: RuntimeMode = 'Development';
+  private _apiUrl = 'https://a.khalti.com/api/v2';
+  private _khaltiSecretKey = 'live_secret_key_c29bff9015674b939338370b7ea9f7f2';
+  private _websiteUrl = 'https://example.com';
+  private _redirectUrl = 'https://example.com/redirectUrl';
 
   constructor(params?: KhaltiPaymentConstructor) {
-    if (typeof params === "undefined") {
-      console.log("Runtime Mode set to Development.");
+    if (typeof params === 'undefined') {
+      console.log('Runtime Mode set to Development.');
       console.log(`Setting Development API URL: ${this._apiUrl}`);
       console.log(`Setting Development Key To: ${this._khaltiSecretKey}`);
       console.log(`Website Url: ${this._websiteUrl}`);
@@ -71,7 +71,7 @@ export class KhaltiPayment {
       return;
     }
     const {
-      runtimeMode = "Development",
+      runtimeMode = 'Development',
       khaltiSecretKey,
       websiteUrl,
       redirectUrl,
@@ -83,9 +83,9 @@ export class KhaltiPayment {
   }
 
   private setApiUrl() {
-    if (this._runtimeMode === "Production") {
-      this._apiUrl = "https://khalti.com/api/v2";
-    } else if (this._runtimeMode === "Development") {
+    if (this._runtimeMode === 'Production') {
+      this._apiUrl = 'https://khalti.com/api/v2';
+    } else if (this._runtimeMode === 'Development') {
       console.log(`Setting Development API URL: ${this._apiUrl}`);
     }
   }
@@ -95,19 +95,19 @@ export class KhaltiPayment {
    * @param khaltiSecretKey - This is the secret key provided by Khalti
    */
   private setKhaltiSecret(
-    khaltiSecretKey: KhaltiPaymentConstructor["khaltiSecretKey"]
+    khaltiSecretKey: KhaltiPaymentConstructor['khaltiSecretKey'],
   ) {
     if (
-      this._runtimeMode === "Production" &&
-      typeof khaltiSecretKey === "undefined"
+      this._runtimeMode === 'Production' &&
+      typeof khaltiSecretKey === 'undefined'
     ) {
-      throw new Error("KahltiSecret Key Cannot Be Empty.");
+      throw new Error('KahltiSecret Key Cannot Be Empty.');
     }
-    if (typeof khaltiSecretKey === "string") {
+    if (typeof khaltiSecretKey === 'string') {
       this._khaltiSecretKey = khaltiSecretKey;
     }
-    if (this._runtimeMode === "Development") {
-      console.log("Runtime Mode set to Development.");
+    if (this._runtimeMode === 'Development') {
+      console.log('Runtime Mode set to Development.');
       console.log(`Setting Development Key To: ${this._khaltiSecretKey}`);
     }
   }
@@ -118,28 +118,28 @@ export class KhaltiPayment {
    * @param redirectUrl - Redirect Url
    */
   private setRedirectsAndWebsiteUrl(
-    websiteUrl: KhaltiPaymentConstructor["websiteUrl"],
-    redirectUrl: KhaltiPaymentConstructor["redirectUrl"]
+    websiteUrl: KhaltiPaymentConstructor['websiteUrl'],
+    redirectUrl: KhaltiPaymentConstructor['redirectUrl'],
   ) {
     if (
-      this._runtimeMode === "Production" &&
-      typeof websiteUrl === "undefined"
+      this._runtimeMode === 'Production' &&
+      typeof websiteUrl === 'undefined'
     ) {
-      throw new Error("Website URL Cannot Be Empty.");
+      throw new Error('Website URL Cannot Be Empty.');
     }
     if (
-      this._runtimeMode === "Production" &&
-      typeof redirectUrl === "undefined"
+      this._runtimeMode === 'Production' &&
+      typeof redirectUrl === 'undefined'
     ) {
-      throw new Error("Redirect Url Cannot Be Empty.");
+      throw new Error('Redirect Url Cannot Be Empty.');
     }
-    if (typeof websiteUrl === "string") {
+    if (typeof websiteUrl === 'string') {
       this._websiteUrl = websiteUrl;
     }
-    if (typeof redirectUrl === "string") {
+    if (typeof redirectUrl === 'string') {
       this._redirectUrl = redirectUrl;
     }
-    if (this._runtimeMode === "Development") {
+    if (this._runtimeMode === 'Development') {
       console.log(`Website Url: ${this._websiteUrl}`);
       console.log(`Redirect Url: ${this._redirectUrl}`);
     }
@@ -147,28 +147,28 @@ export class KhaltiPayment {
 
   public getPidx(params: GetPidxProps) {
     if (Object.keys(params || {}).length === 0) {
-      throw new Error("Cannot Initiate Request without Valid Parameters.");
+      throw new Error('Cannot Initiate Request without Valid Parameters.');
     }
-    if (typeof window !== "undefined") {
+    if (typeof window !== 'undefined') {
       throw new Error(
-        "Pidx Can Only Be Generated On Server Side i.e. Node.js due to CORS error set on frontend. Implement This Function in Backend and send Its response to the Frontend to Overcome this Issue."
+        'Pidx Can Only Be Generated On Server Side i.e. Node.js due to CORS error set on frontend. Implement This Function in Backend and send Its response to the Frontend to Overcome this Issue.',
       );
     }
-    const getPidxUrl = this._apiUrl + "/epayment/initiate/";
+    const getPidxUrl = this._apiUrl + '/epayment/initiate/';
     const finalPostData: any = {
       website_url: this._websiteUrl || params.websiteUrl,
       return_url: this._redirectUrl || params.redirectUrl,
       ...params,
     };
     let checkForNullParams = [
-      "return_url",
-      "website_url",
-      "amount",
-      "purchase_order_id",
-      "purchase_order_name",
+      'return_url',
+      'website_url',
+      'amount',
+      'purchase_order_id',
+      'purchase_order_name',
     ];
     for (let key of checkForNullParams) {
-      if (typeof finalPostData[key] === "undefined") {
+      if (typeof finalPostData[key] === 'undefined') {
         throw new Error(`${key} cannot be Empty while Initiating Payment.`);
       }
     }
@@ -178,10 +178,10 @@ export class KhaltiPayment {
   private async _makeGetPidxRequest(path: string, data: any) {
     try {
       const response = await fetch(path, {
-        method: "POST",
+        method: 'POST',
         headers: {
           Authorization: `Key ${this._khaltiSecretKey}`,
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
         },
         body: JSON.stringify(data),
       });
@@ -200,9 +200,9 @@ export class KhaltiPayment {
    * ```
    */
   public verifyPayment(pidx: string) {
-    const verificationUrl = this._apiUrl + "/epayment/lookup/";
-    if (typeof pidx === "undefined") {
-      throw new Error("Pidx Cannot be undefined While Verifying Payment.");
+    const verificationUrl = this._apiUrl + '/epayment/lookup/';
+    if (typeof pidx === 'undefined') {
+      throw new Error('Pidx Cannot be undefined While Verifying Payment.');
     }
     return this._makeVerficationRequest(verificationUrl, pidx);
   }
@@ -210,11 +210,11 @@ export class KhaltiPayment {
   private async _makeVerficationRequest(path: string, pidx: string) {
     try {
       const response = await fetch(path, {
-        method: "POST",
+        method: 'POST',
         body: JSON.stringify({ pidx }),
         headers: {
           Authorization: `Key ${this._khaltiSecretKey}`,
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
         },
       });
 

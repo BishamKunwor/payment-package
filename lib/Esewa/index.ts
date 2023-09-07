@@ -1,6 +1,6 @@
-import postForm, { convertObjectDataToString } from "../postForm";
+import postForm, { convertObjectDataToString } from '../postForm';
 
-type RuntimeMode = "Development" | "Production";
+type RuntimeMode = 'Development' | 'Production';
 
 interface EsewaPaymentConstructor {
   /**
@@ -162,14 +162,14 @@ interface PaymentVerificationRequest {
  * 
  */
 export class EsewaPayment {
-  private _runtimeMode: RuntimeMode = "Development";
-  private _apiUrl = "https://uat.esewa.com.np";
-  private _scd = "EPAYTEST";
-  private _successRedirectUrl = "https://example.com/esewaSuccessRedirect";
-  private _failureRedirectUrl = "https://example.com/esewaFailureRedirect";
+  private _runtimeMode: RuntimeMode = 'Development';
+  private _apiUrl = 'https://uat.esewa.com.np';
+  private _scd = 'EPAYTEST';
+  private _successRedirectUrl = 'https://example.com/esewaSuccessRedirect';
+  private _failureRedirectUrl = 'https://example.com/esewaFailureRedirect';
 
   constructor(params?: EsewaPaymentConstructor) {
-    if (typeof params === "undefined") {
+    if (typeof params === 'undefined') {
       console.log(`Runtime Mode set to Development.`);
       console.log(`MerchantId set to ${this._scd}`);
       console.log(`Redirect url Set to ${this._apiUrl}`);
@@ -178,7 +178,7 @@ export class EsewaPayment {
       return;
     }
     const {
-      runtimeMode = "Development",
+      runtimeMode = 'Development',
       merchantId,
       successRedirectUrl,
       failureRedirectUrl,
@@ -193,17 +193,17 @@ export class EsewaPayment {
    * Sets the scd provided by eSewa
    * @param merchantId - This is the merchand code provided by eSewa and is known by scd
    */
-  private _setMerchantId(merchantId: EsewaPaymentConstructor["merchantId"]) {
+  private _setMerchantId(merchantId: EsewaPaymentConstructor['merchantId']) {
     if (
-      this._runtimeMode === "Production" &&
-      typeof merchantId === "undefined"
+      this._runtimeMode === 'Production' &&
+      typeof merchantId === 'undefined'
     ) {
-      throw new Error("MerchantId cannot Be Empty.");
+      throw new Error('MerchantId cannot Be Empty.');
     }
-    if (typeof merchantId === "string") {
+    if (typeof merchantId === 'string') {
       this._scd = merchantId;
     }
-    if (this._runtimeMode === "Development") {
+    if (this._runtimeMode === 'Development') {
       console.log(`Runtime Mode set to Development.`);
       console.log(`MerchantId set to ${this._scd}`);
     }
@@ -213,9 +213,9 @@ export class EsewaPayment {
    * Sets the base API Url
    */
   private _setApiUrl() {
-    if (this._runtimeMode === "Production") {
-      this._apiUrl = "https://esewa.com.np";
-    } else if (this._runtimeMode === "Development") {
+    if (this._runtimeMode === 'Production') {
+      this._apiUrl = 'https://esewa.com.np';
+    } else if (this._runtimeMode === 'Development') {
       console.log(`Redirect url Set to ${this._apiUrl}`);
     }
   }
@@ -226,16 +226,16 @@ export class EsewaPayment {
    * @param failureRedirectUrl - Redirect Url For Payment Failure.
    */
   private _setRedirectUrls(
-    successRedirectUrl: EsewaPaymentConstructor["successRedirectUrl"],
-    failureRedirectUrl: EsewaPaymentConstructor["failureRedirectUrl"]
+    successRedirectUrl: EsewaPaymentConstructor['successRedirectUrl'],
+    failureRedirectUrl: EsewaPaymentConstructor['failureRedirectUrl'],
   ) {
-    if (typeof successRedirectUrl === "string") {
+    if (typeof successRedirectUrl === 'string') {
       this._successRedirectUrl = successRedirectUrl;
     }
-    if (typeof failureRedirectUrl === "string") {
+    if (typeof failureRedirectUrl === 'string') {
       this._failureRedirectUrl = failureRedirectUrl;
     }
-    if (this._runtimeMode === "Development") {
+    if (this._runtimeMode === 'Development') {
       console.log(`Success Redirect Url: ${this._successRedirectUrl}`);
       console.log(`Failure Redirect Url: ${this._failureRedirectUrl}`);
     }
@@ -246,10 +246,10 @@ export class EsewaPayment {
    */
   public initiate(params: EsewaPaymentRequestInit) {
     if (Object.keys(params || {}).length === 0) {
-      console.log("Cannot Initiate Payment without Valid Request Parameters.");
+      console.log('Cannot Initiate Payment without Valid Request Parameters.');
       return;
     }
-    const paymentInitiateUrl = this._apiUrl + "/epay/main";
+    const paymentInitiateUrl = this._apiUrl + '/epay/main';
     const finalPostData: EsewaPaymentFinalRequest = {
       su: params.successRedirectUrl || this._successRedirectUrl,
       fu: params.failureRedirectUrl || this._failureRedirectUrl,
@@ -262,31 +262,31 @@ export class EsewaPayment {
       txAmt: params.taxAmount || 0,
     };
     let checkForNullParams = {
-      amt: "amount",
-      txAmt: "taxAmount",
-      psc: "serviceCharge",
-      pdc: "deliveryCharge",
-      scd: "merchantId",
-      tAmt: "totalAmount",
-      pid: "processId",
-      su: "successRedirectUrl",
-      fu: "failureRedirectUrl",
+      amt: 'amount',
+      txAmt: 'taxAmount',
+      psc: 'serviceCharge',
+      pdc: 'deliveryCharge',
+      scd: 'merchantId',
+      tAmt: 'totalAmount',
+      pid: 'processId',
+      su: 'successRedirectUrl',
+      fu: 'failureRedirectUrl',
     } as const;
     for (let key in checkForNullParams) {
       if (
         typeof finalPostData[key as keyof typeof checkForNullParams] ===
-        "undefined"
+        'undefined'
       ) {
         throw new Error(
           `${
             checkForNullParams[key as keyof typeof checkForNullParams]
-          } cannot be Empty while Initiating Payment.`
+          } cannot be Empty while Initiating Payment.`,
         );
       }
     }
     postForm(
       paymentInitiateUrl,
-      convertObjectDataToString<typeof finalPostData>(finalPostData)
+      convertObjectDataToString<typeof finalPostData>(finalPostData),
     );
   }
 
@@ -298,9 +298,9 @@ export class EsewaPayment {
    * @returns {Object} - Returns {success: boolean}
    */
   public verifyPayment(params: PaymentVerificationRequestInit) {
-    const verificationUrl = this._apiUrl + "/epay/transrec";
+    const verificationUrl = this._apiUrl + '/epay/transrec';
     if (Object.keys(params || {}).length === 0) {
-      console.log("Cannot Verify Payment without Valid Request Parameters.");
+      console.log('Cannot Verify Payment without Valid Request Parameters.');
       return;
     }
     let finalPostData: PaymentVerificationRequest = {
@@ -309,19 +309,19 @@ export class EsewaPayment {
       rid: params.referenceId,
     };
     let checkForNullParams = {
-      amt: "amount",
-      pid: "processId",
-      rid: "referenceId",
+      amt: 'amount',
+      pid: 'processId',
+      rid: 'referenceId',
     };
     for (let key in checkForNullParams) {
       if (
         typeof finalPostData[key as keyof typeof checkForNullParams] ===
-        "undefined"
+        'undefined'
       ) {
         throw new Error(
           `${
             checkForNullParams[key as keyof typeof checkForNullParams]
-          } cannot be Empty while Verifying Payment.`
+          } cannot be Empty while Verifying Payment.`,
         );
       }
     }
@@ -330,7 +330,7 @@ export class EsewaPayment {
 
   private async makeVerficationRequest(
     path: string,
-    params: PaymentVerificationRequest
+    params: PaymentVerificationRequest,
   ) {
     const finalPostData = {
       scd: this._scd,
@@ -339,7 +339,7 @@ export class EsewaPayment {
     let formData: { [key: string]: string } =
       convertObjectDataToString<typeof finalPostData>(finalPostData);
     for (let key in formData) {
-      if (typeof formData[key] === "undefined") {
+      if (typeof formData[key] === 'undefined') {
         throw new Error(`${key} cannot be Empty while Verifing Payment.`);
       }
     }
@@ -355,11 +355,11 @@ export class EsewaPayment {
       //   data: form,
       // });
       let response = await fetch(path, {
-        method: "POST",
+        method: 'POST',
         body: form,
       });
       let responseData = await response.text();
-      if (responseData.includes("Success")) {
+      if (responseData.includes('Success')) {
         return {
           success: true,
         };
