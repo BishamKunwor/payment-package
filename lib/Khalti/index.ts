@@ -198,23 +198,34 @@ export class KhaltiPayment {
   public verifyPayment(pidx: string) {
     const verificationUrl = this._apiUrl + "/epayment/lookup/";
     if (typeof pidx === "undefined") {
-      throw new Error("Pidx Cannot While Verifying Payment.");
+      throw new Error("Pidx Cannot be undefined While Verifying Payment.");
     }
     return this.makeVerficationRequest(verificationUrl, pidx);
   }
 
   private async makeVerficationRequest(path: string, pidx: string) {
     try {
-      const response = await axios({
+      // const response = await axios({
+      //   method: "POST",
+      //   url: path,
+      //   headers: {
+      //     Authorization: `Key ${this._khaltiSecretKey}`,
+      //     "Content-Type": "application/json",
+      //   },
+      //   data: JSON.stringify({ pidx }),
+      // });
+      // return response.data;
+
+      const response = await fetch(path, {
         method: "POST",
-        url: path,
+        body: JSON.stringify({ pidx }),
         headers: {
           Authorization: `Key ${this._khaltiSecretKey}`,
           "Content-Type": "application/json",
         },
-        data: JSON.stringify({ pidx }),
       });
-      return response.data;
+
+      return await response.json();
     } catch (error) {
       console.log(error);
     }

@@ -1,9 +1,9 @@
 import { EsewaPayment } from "./Esewa";
 import { KhaltiPayment } from "./Khalti";
 
-// const khaltiPayment = new KhaltiPayment({});
+const khaltiPayment = new KhaltiPayment();
 
-// (async () => {
+(async () => {
 //   console.log(
 //     await khaltiPayment.getPidx({
 //       amount: 20000,
@@ -11,7 +11,7 @@ import { KhaltiPayment } from "./Khalti";
 //       purchase_order_name: "asdfasdfasdf",
 //     })
 //   );
-//   // console.log(await khaltiPayment.verifyPayment("3owTGDFzmWrRPEsF3wFF7B"));
-// })();
+  console.log(await khaltiPayment.verifyPayment("3owTGDFzmWrRPEsF3wFF7B"));
+})();
 
 export { EsewaPayment, KhaltiPayment };
