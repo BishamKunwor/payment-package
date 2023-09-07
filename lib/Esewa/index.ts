@@ -9,11 +9,6 @@ export class EsewaPayment {
 
   constructor(params?: EsewaPaymentConstructor) {
     if (typeof params === 'undefined') {
-      console.log(`Runtime Mode set to Development.`);
-      console.log(`MerchantId set to ${this._scd}`);
-      console.log(`Redirect url Set to ${this._apiUrl}`);
-      console.log(`Success Redirect Url: ${this._successRedirectUrl}`);
-      console.log(`Failure Redirect Url: ${this._failureRedirectUrl}`);
       return;
     }
     const {
@@ -21,11 +16,23 @@ export class EsewaPayment {
       merchantId,
       successRedirectUrl,
       failureRedirectUrl,
+      logConfig = false,
     } = params;
     this._runtimeMode = runtimeMode;
     this._setMerchantId(merchantId);
     this._setApiUrl();
     this._setRedirectUrls(successRedirectUrl, failureRedirectUrl);
+    if (logConfig) {
+      this._logConfig();
+    }
+  }
+
+  private _logConfig() {
+    console.log(`Runtime Mode set to ${this._runtimeMode}.`);
+    console.log(`MerchantId set to ${this._scd}`);
+    console.log(`Redirect url Set to ${this._apiUrl}`);
+    console.log(`Success Redirect Url: ${this._successRedirectUrl}`);
+    console.log(`Failure Redirect Url: ${this._failureRedirectUrl}`);
   }
 
   /**
@@ -41,10 +48,8 @@ export class EsewaPayment {
     }
     if (typeof merchantId === 'string') {
       this._scd = merchantId;
-    }
-    if (this._runtimeMode === 'Development') {
-      console.log(`Runtime Mode set to Development.`);
-      console.log(`MerchantId set to ${this._scd}`);
+    } else {
+      throw new Error('merchantId should be of type String.');
     }
   }
 
@@ -54,8 +59,6 @@ export class EsewaPayment {
   private _setApiUrl() {
     if (this._runtimeMode === 'Production') {
       this._apiUrl = 'https://esewa.com.np';
-    } else if (this._runtimeMode === 'Development') {
-      console.log(`Redirect url Set to ${this._apiUrl}`);
     }
   }
 
@@ -70,13 +73,14 @@ export class EsewaPayment {
   ) {
     if (typeof successRedirectUrl === 'string') {
       this._successRedirectUrl = successRedirectUrl;
+    } else {
+      throw new Error('successRedirectUrl should be of type String.');
     }
+
     if (typeof failureRedirectUrl === 'string') {
       this._failureRedirectUrl = failureRedirectUrl;
-    }
-    if (this._runtimeMode === 'Development') {
-      console.log(`Success Redirect Url: ${this._successRedirectUrl}`);
-      console.log(`Failure Redirect Url: ${this._failureRedirectUrl}`);
+    } else {
+      throw new Error('failureRedirectUrl should be of type String.');
     }
   }
 
@@ -164,10 +168,10 @@ export class EsewaPayment {
         );
       }
     }
-    return this.makeVerficationRequest(verificationUrl, finalPostData);
+    return this._makeVerficationRequest(verificationUrl, finalPostData);
   }
 
-  private async makeVerficationRequest(
+  private async _makeVerficationRequest(
     path: string,
     params: PaymentVerificationRequest,
   ) {

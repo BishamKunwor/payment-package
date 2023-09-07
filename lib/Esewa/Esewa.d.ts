@@ -26,6 +26,11 @@ interface EsewaPaymentConstructor {
    * @param {string | undefined} failureRedirectUrl - Redirects to this link After Payment Failure.
    */
   failureRedirectUrl?: string;
+
+  /**
+   * @param logConfig - Boolean to Show Logs or Not
+   */
+  logConfig?: boolean;
 }
 
 interface EsewaPaymentRequest {

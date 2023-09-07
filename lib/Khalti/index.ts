@@ -57,9 +57,10 @@ export class KhaltiPayment {
     ) {
       throw new Error('khaltiSecretKey Key Cannot Be Empty.');
     }
+
     if (typeof khaltiSecretKey === 'string') {
       this._khaltiSecretKey = khaltiSecretKey;
-    } else {
+    } else if (typeof khaltiSecretKey !== 'undefined') {
       throw new Error('khaltiSecretKey should be of type String.');
     }
   }
@@ -75,13 +76,13 @@ export class KhaltiPayment {
   ) {
     if (typeof websiteUrl === 'string') {
       this._websiteUrl = websiteUrl;
-    } else {
+    } else if (typeof websiteUrl !== 'undefined') {
       throw new Error('websiteUrl should be of type String.');
     }
 
     if (typeof redirectUrl === 'string') {
       this._redirectUrl = redirectUrl;
-    } else {
+    } else if (typeof redirectUrl !== 'undefined') {
       throw new Error('redirectUrl should be of type String.');
     }
   }
