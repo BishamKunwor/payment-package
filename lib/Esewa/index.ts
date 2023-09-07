@@ -182,17 +182,11 @@ export class EsewaPayment {
         throw new Error(`${key} cannot be Empty while Verifing Payment.`);
       }
     }
-    // const form = new FormData();
     const form = new URLSearchParams();
     for (let key in formData) {
       form.append(key, formData[key]);
     }
     try {
-      // const response = await axios({
-      //   method: "POST",
-      //   url: path,
-      //   data: form,
-      // });
       let response = await fetch(path, {
         method: 'POST',
         body: form,
