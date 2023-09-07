@@ -7,28 +7,31 @@ export class KhaltiPayment {
 
   constructor(params?: KhaltiPaymentConstructor) {
     if (typeof params === 'undefined') {
-      this._logConfig();
       return;
     }
+
     const {
       runtimeMode = 'Development',
       khaltiSecretKey,
       websiteUrl,
       redirectUrl,
+      logConfig = false,
     } = params;
+
     this._runtimeMode = runtimeMode;
     this._setKhaltiSecret(khaltiSecretKey);
     this._setApiUrl();
     this._setRedirectsAndWebsiteUrl(websiteUrl, redirectUrl);
-    if (this._runtimeMode === 'Development') {
+
+    if (logConfig) {
       this._logConfig();
     }
   }
 
   private _logConfig() {
-    console.log('Runtime Mode set to Development.');
-    console.log(`Setting Development API URL: ${this._apiUrl}`);
-    console.log(`Setting Development Key To: ${this._khaltiSecretKey}`);
+    console.log(`Runtime Mode set to ${this._runtimeMode}.`);
+    console.log(`Setting ${this._runtimeMode} API URL: ${this._apiUrl}`);
+    console.log(`Setting ${this._runtimeMode} Key To: ${this._khaltiSecretKey}`);
     console.log(`Website Url: ${this._websiteUrl}`);
     console.log(`Redirect Url: ${this._redirectUrl}`);
   }

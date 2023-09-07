@@ -4,21 +4,74 @@ interface WebsiteUrls {
    * @param redirectUrl - Khalti Redirects to this Url After Payment
    */
   redirectUrl?: string;
+
   /**
    * @param websiteUrl - Website Url used By Khalti For Keeping Payment Initiation Record
    */
   websiteUrl?: string;
 }
-interface KhaltiPaymentConstructor extends WebsiteUrls {
+
+interface KhaltiDevelopmentConstructor {
   /**
    * @param {RuntimeMode} runtimeMode - `Development` or `Production` Mode to Perform Transaction
+   * @default Development
    */
-  runtimeMode?: RuntimeMode;
+  runtimeMode: 'Development';
+  /**
+   * @param khaltiSecretKey - Secret key provided by khalti.
+   */
+  khaltiSecretKey?: string;
+}
+
+interface KhaltiProductionConstructor {
+  /**
+   * @param {RuntimeMode} runtimeMode - `Development` or `Production` Mode to Perform Transaction
+   * @default Development
+   */
+  runtimeMode: 'Production';
   /**
    * @param khaltiSecretKey - Secret key provided by khalti.
    */
   khaltiSecretKey: string;
 }
+
+interface KhaltiUniqueConstructorConfigs extends WebsiteUrls {
+  logConfig?: boolean;
+}
+type KhaltiPaymentConstructor = KhaltiUniqueConstructorConfigs &
+  (KhaltiDevelopmentConstructor | KhaltiProductionConstructor);
+
+// interface KhaltiPaymentConstructor extends WebsiteUrls {
+//   /**
+//    * @param {RuntimeMode} runtimeMode - `Development` or `Production` Mode to Perform Transaction
+//    * @default Development
+//    */
+//   runtimeMode?: RuntimeMode;
+
+//   /**
+//    * @param khaltiSecretKey - Secret key provided by khalti.
+//    */
+//   khaltiSecretKey?: string;
+
+//   logConfig?: boolean;
+// }
+
+// type KhaltiPaymentConstructor = {} & (
+//   | {
+//       runtimeMode: 'Development';
+//       /**
+//        * @param khaltiSecretKey - Secret key provided by khalti.
+//        */
+//       khaltiSecretKey?: string;
+//     }
+//   | {
+//       runtimeMode: 'Production';
+//       /**
+//        * @param khaltiSecretKey - Secret key provided by khalti.
+//        */
+//       khaltiSecretKey: string;
+//     }
+// ) & WebsiteUrls;
 
 interface GetPidxProps extends WebsiteUrls {
   /**
