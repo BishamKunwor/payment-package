@@ -11,6 +11,7 @@ export class EsewaPayment {
     if (typeof params === 'undefined') {
       return;
     }
+
     const {
       runtimeMode = 'Development',
       merchantId,
@@ -18,10 +19,12 @@ export class EsewaPayment {
       failureRedirectUrl,
       logConfig = false,
     } = params;
+
     this._runtimeMode = runtimeMode;
     this._setMerchantId(merchantId);
     this._setApiUrl();
     this._setRedirectUrls(successRedirectUrl, failureRedirectUrl);
+
     if (logConfig) {
       this._logConfig();
     }
@@ -48,7 +51,7 @@ export class EsewaPayment {
     }
     if (typeof merchantId === 'string') {
       this._scd = merchantId;
-    } else {
+    } else if (typeof merchantId !== 'undefined') {
       throw new Error('merchantId should be of type String.');
     }
   }
@@ -73,13 +76,13 @@ export class EsewaPayment {
   ) {
     if (typeof successRedirectUrl === 'string') {
       this._successRedirectUrl = successRedirectUrl;
-    } else {
+    } else if (typeof successRedirectUrl !== 'undefined') {
       throw new Error('successRedirectUrl should be of type String.');
     }
 
     if (typeof failureRedirectUrl === 'string') {
       this._failureRedirectUrl = failureRedirectUrl;
-    } else {
+    } else if (typeof failureRedirectUrl !== 'undefined') {
       throw new Error('failureRedirectUrl should be of type String.');
     }
   }
