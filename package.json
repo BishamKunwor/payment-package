@@ -1,6 +1,6 @@
 {
   "name": "@bisham/payment-package",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "An Easy Plug and Play Typed Package For Implementing Popular Nepalese Payment Provider into any App.",
   "main": "dist/index.js",
   "types": "dist/index.ts",
@@ -17,6 +17,13 @@
     "esewa",
     "khalti"
   ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/BishamKunwor/payment-package"
+  },
+  "bugs": {
+    "url": "https://github.com/BishamKunwor/payment-package/issues"
+  },
   "license": "MIT",
   "devDependencies": {
     "@types/node": "^20.4.9",
@@ -25,9 +32,6 @@
     "prettier": "^3.0.3",
     "ts-node": "^10.9.1",
     "typescript": "^5.1.6"
-  },
-  "dependencies": {
-    "axios": "^1.4.0"
   },
   "engines": {
     "node": ">=18.0.0",
