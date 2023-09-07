@@ -31,7 +31,9 @@ export class KhaltiPayment {
   private _logConfig() {
     console.log(`Runtime Mode set to ${this._runtimeMode}.`);
     console.log(`Setting ${this._runtimeMode} API URL: ${this._apiUrl}`);
-    console.log(`Setting ${this._runtimeMode} Key To: ${this._khaltiSecretKey}`);
+    console.log(
+      `Setting ${this._runtimeMode} Key To: ${this._khaltiSecretKey}`,
+    );
     console.log(`Website Url: ${this._websiteUrl}`);
     console.log(`Redirect Url: ${this._redirectUrl}`);
   }
@@ -57,6 +59,8 @@ export class KhaltiPayment {
     }
     if (typeof khaltiSecretKey === 'string') {
       this._khaltiSecretKey = khaltiSecretKey;
+    } else {
+      throw new Error('khaltiSecretKey should be of type String.');
     }
   }
 
@@ -69,23 +73,16 @@ export class KhaltiPayment {
     websiteUrl: KhaltiPaymentConstructor['websiteUrl'],
     redirectUrl: KhaltiPaymentConstructor['redirectUrl'],
   ) {
-    if (
-      this._runtimeMode === 'Production' &&
-      typeof websiteUrl === 'undefined'
-    ) {
-      throw new Error('Website URL Cannot Be Empty.');
-    }
-    if (
-      this._runtimeMode === 'Production' &&
-      typeof redirectUrl === 'undefined'
-    ) {
-      throw new Error('Redirect Url Cannot Be Empty.');
-    }
     if (typeof websiteUrl === 'string') {
       this._websiteUrl = websiteUrl;
+    } else {
+      throw new Error('websiteUrl should be of type String.');
     }
+
     if (typeof redirectUrl === 'string') {
       this._redirectUrl = redirectUrl;
+    } else {
+      throw new Error('redirectUrl should be of type String.');
     }
   }
 
