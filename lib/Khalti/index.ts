@@ -172,20 +172,20 @@ export class KhaltiPayment {
         throw new Error(`${key} cannot be Empty while Initiating Payment.`);
       }
     }
-    return this.makeGetPidxRequest(getPidxUrl, finalPostData);
+    return this._makeGetPidxRequest(getPidxUrl, finalPostData);
   }
 
-  private async makeGetPidxRequest(path: string, data: any) {
+  private async _makeGetPidxRequest(path: string, data: any) {
     try {
-      const response = await axios({
+      const response = await fetch(path, {
         method: "POST",
-        url: path,
         headers: {
           Authorization: `Key ${this._khaltiSecretKey}`,
+          "Content-Type": "application/json",
         },
-        data,
+        body: JSON.stringify(data),
       });
-      return response.data;
+      return await response.json();
     } catch (error) {
       console.log(error);
     }
@@ -194,28 +194,21 @@ export class KhaltiPayment {
   /**
    * Verify Payment From Khalti
    * @param {string} pidx - Product ID (pid) used on payment request
+   * @example
+   * ```ts
+   * await khaltiPayment.verifyPayment("3owTGDFzmWrRPEsF3wFF7B")
+   * ```
    */
   public verifyPayment(pidx: string) {
     const verificationUrl = this._apiUrl + "/epayment/lookup/";
     if (typeof pidx === "undefined") {
       throw new Error("Pidx Cannot be undefined While Verifying Payment.");
     }
-    return this.makeVerficationRequest(verificationUrl, pidx);
+    return this._makeVerficationRequest(verificationUrl, pidx);
   }
 
-  private async makeVerficationRequest(path: string, pidx: string) {
+  private async _makeVerficationRequest(path: string, pidx: string) {
     try {
-      // const response = await axios({
-      //   method: "POST",
-      //   url: path,
-      //   headers: {
-      //     Authorization: `Key ${this._khaltiSecretKey}`,
-      //     "Content-Type": "application/json",
-      //   },
-      //   data: JSON.stringify({ pidx }),
-      // });
-      // return response.data;
-
       const response = await fetch(path, {
         method: "POST",
         body: JSON.stringify({ pidx }),
