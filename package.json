@@ -15,8 +15,7 @@
   },
   "keywords": [
     "esewa",
-    "khalti",
-    "connectips"
+    "khalti"
   ],
   "license": "MIT",
   "devDependencies": {
@@ -30,8 +29,8 @@
     "axios": "^1.4.0"
   },
   "engines": {
-    "node": ">=16.0.0",
-    "npm": ">=8.0.0",
+    "node": ">=18.0.0",
+    "npm": ">=9.0.0",
     "yarn": "Please Use Npm.",
     "pnpm": "Please Use Npm."
   }
