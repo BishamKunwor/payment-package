@@ -214,7 +214,7 @@ export class EsewaPayment {
       this._runtimeMode === 'Production' &&
       typeof merchantId === 'undefined'
     ) {
-      throw new Error('MerchantId cannot Be Empty.');
+      throw new Error('merchantId cannot Be Empty.');
     }
     if (typeof merchantId === 'string') {
       this._scd = merchantId;
@@ -259,8 +259,9 @@ export class EsewaPayment {
    */
   public initiate(params: EsewaPaymentRequestInit) {
     if (Object.keys(params || {}).length === 0) {
-      console.log('Cannot Initiate Payment without Valid Request Parameters.');
-      return;
+      throw new Error(
+        'Cannot Initiate Payment without Valid Request Parameters.',
+      );
     }
     const paymentInitiateUrl = this._apiUrl + '/epay/main';
     const finalPostData: EsewaPaymentFinalRequest = {
@@ -313,8 +314,14 @@ export class EsewaPayment {
   public verifyPayment(params: PaymentVerificationRequestInit) {
     const verificationUrl = this._apiUrl + '/epay/transrec';
     if (Object.keys(params || {}).length === 0) {
-      console.log('Cannot Verify Payment without Valid Request Parameters.');
-      return;
+      throw new Error(
+        'Cannot Verify Payment without Valid Request Parameters.',
+      );
+    }
+    if (typeof window !== 'undefined') {
+      throw new Error(
+        'Payment Verification Can only Be done in Server Side i.e. Node.js due to CORS Implementation on esewa Validate Payment API.',
+      );
     }
     let finalPostData: PaymentVerificationRequest = {
       amt: params.amount,

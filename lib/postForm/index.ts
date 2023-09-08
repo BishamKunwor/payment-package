@@ -3,7 +3,7 @@ export default function postForm<T>(
   params: { [key in keyof T]: string },
 ) {
   if (typeof window === 'undefined') {
-    throw new Error('Cannot Initiate Payment In Node Environment.');
+    throw new Error('Cannot Initiate Payment In Node Environment. Run this Method in Brower Environment.');
   }
 
   let form = document.createElement('form');
